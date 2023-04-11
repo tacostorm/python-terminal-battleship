@@ -1,0 +1,68 @@
+2 Player battleship game played in a terminal
+
+after every turn, delay before screen is wiped and next player makes their move
+
+at it's basic concept, players fill a grid with shapes, then take turns guessing grid coordinates to see if there's a shape there
+
+needed objects
+play area
+    - has a size (assume it's always square?)
+        - list of list? I.E. a 2x2 grid is a [[0, 1], [0,1]]
+        - each grid is either ocupied, or not
+        - each grid is guessed, or not
+        - if a grid is guessed, the contents of the grid is known.
+        so each grid segment, i need to know what it holds and if the other player has guessed it to do everything with it.
+
+        how should a grid be structured? Let's take a 3x3 grid as an example
+        play area =
+        [[grid, grid, grid], 
+         [grid, grid, grid],
+         [grid, grid, grid]]
+
+        play area[0,1].get status = 
+    - is tied to a player
+
+grid segment
+    - has a contents (empty, or occupied)
+    - has a status (fired or not)
+    - has a name ('E4')
+
+
+
+to display the play area I can iterate through the play area
+
+so assuming I'm player 1, my board would look like
+    
+    for row in play_area:
+        for grid in row:
+            print grid.contents
+
+my enemies board would look like
+
+    for row in play_area:
+        for grid in row:
+            if grid.status = fired:
+                print grid.contents
+            else:
+                print whatever we want for a grid we haven't shot at 
+
+General game flow
+
+setup
+    players have a set of pieces
+    players indicate where they want the piece to start/end
+    one player will completely place their pieces, then hand it over to another player to do the same
+    once all players are done, the game phase begins
+
+game
+    at the beginning of each players turn, ask for them to hit a key to display their board status
+    once confirmed, the players' board as well as what they know of the enemies board is displayed
+    the player is asked which coordinate they want to fire at (ex. "E4")
+    we check the contents of the enemy player's coordinate and update the board
+    when they are finished, they hit a key to clear the screen and give control over to the next player.
+
+conclusion
+    when one player has no remaining ships, they lose the game
+    if a player discovers the last spot, they receive a message saying they won
+    the game asks if they'd like to play another or quit the program
+
