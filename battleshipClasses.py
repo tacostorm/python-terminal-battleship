@@ -22,23 +22,21 @@ class PlayArea:
     def __init__(self, height = 10, length = 10):
         self.height = height
         self.length = length
-        self.modules = []
+        self.modules = {}
         for row in range(self.height):
-            row_info = []
             for column in range(self.length):
-                temp = chr(row+65) + str(column+1)
-                row_info.append(Module(temp))
-                #print(temp)
-            self.modules.append(row_info)
+                coordinate = chr(row+65) + str(column+1)
+                self.modules.update({coordinate:Module(coordinate)})
+
     
-    def show(self, owner_perspective = True):
-        display_string = ""
-        for row in range(self.height):
-            for column in range(self.length):
-                
-                display_string += "~ " #self.modules[row][column].coordinates + "\t"
-            display_string += "\n"
-        return display_string
+    #def show(self, owner_perspective = True):
+    #    display_string = ""
+    #    for row in range(self.height):
+    #        for column in range(self.length):
+    #            
+    #            display_string += "~ " #self.modules[row][column].coordinates + "\t"
+    #        display_string += "\n"
+    #    return display_string
 
 class Module:
 

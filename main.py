@@ -5,5 +5,6 @@ ShipsDict = {"Battleship":4, "Carrier":5, "Destroyer":3, "Submarine":3, "Patrol 
 
 
 test = battleshipClasses.PlayArea(10,10)
-print(test.show())
+print(test.modules)
+print(test.modules["A2"])
 
