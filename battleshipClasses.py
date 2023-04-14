@@ -1,6 +1,6 @@
 class Player:
     
-    idCounter = 0
+    idCounter = 1
 
     def __init__(self):
         self.id = Player.idCounter
@@ -27,6 +27,27 @@ class PlayArea:
             for column in range(self.length):
                 coordinate = chr(row+65) + str(column+1)
                 self.modules.update({coordinate:Module(coordinate)})
+
+    def show(self, owner_perspective = True):
+        display_string = ""
+        for row in range(self.height + 1):
+            for column in range(self.length + 1):
+                if row == 0 and column == 0:
+                    display_string += "   "
+                elif row == 0:
+                    display_string += chr(column+64) + " "
+                elif column == 0:
+                    row_num_length = len(str(row))
+                    for i in range(2 - row_num_length): display_string += " "
+                    display_string += str(row) + " "
+                else:
+                    display_string += "~ "
+            display_string += "\n"
+
+
+        return display_string
+
+
 
     
     #def show(self, owner_perspective = True):

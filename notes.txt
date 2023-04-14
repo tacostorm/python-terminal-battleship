@@ -19,8 +19,12 @@ player1.attacks("E4", Player2)
 player2.gridarea["E4]
 
 
+  A B
+1 ~ ~
+2 ~ ~
 
-
+row = 0, render headers
+row > 1, render contents, but first thing is numbered
 
 play area
     - has a size (assume it's always square?)
@@ -147,3 +151,13 @@ Loop while player1 alive and player2 alive
 
 
 
+My grid can have:
+A ship that's not attacked = first letter of ship name
+A ship that's attacked = !
+A coordinate that's been fired on = O
+All other spaces = ~
+
+My enemy grid can have:
+An unknown grid = ~
+A hit = ~
+a miss = O
