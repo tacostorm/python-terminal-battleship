@@ -5,6 +5,23 @@ after every turn, delay before screen is wiped and next player makes their move
 at it's basic concept, players fill a grid with shapes, then take turns guessing grid coordinates to see if there's a shape there
 
 needed objects
+
+
+WHAT IF grid area was a dict?
+playarea = {A1: Module(), A2: Module, B1: Module, B2: Module}
+
+for row in self.length:
+    for column in self.height:
+        coordinate = chr(row+65) + str(column+1)
+        print(playarea[coordinate])
+
+player1.attacks("E4", Player2)
+player2.gridarea["E4]
+
+
+
+
+
 play area
     - has a size (assume it's always square?)
         - list of list? I.E. a 2x2 grid is a [[0, 1], [0,1]]
@@ -65,4 +82,68 @@ conclusion
     when one player has no remaining ships, they lose the game
     if a player discovers the last spot, they receive a message saying they won
     the game asks if they'd like to play another or quit the program
+
+A player has:
+ A board
+ a list of ships
+ ID
+
+A board has:
+    length
+    width
+    an associated Player
+    a list of modules
+
+a module has:
+    its contents
+    if it has been fired upon
+
+
+a ship has:
+    a length
+    location of all its parts
+
+
+1	Carrier	    5
+2	Battleship	4
+3	Destroyer	3
+4	Submarine	3
+5	Patrol Boat	2
+
+
+As a Player
+I want to place my ships on a board
+so that the game can start
+
+As a player
+I want to fire at an opponents ships
+so I can try to find their ships and win
+
+As a player
+I want to restart the game and play again
+So I can have more fun
+
+Main Loop
+
+Prompt to start game.
+Loop while unplaced ships
+    Player1.place_ship("Battleship", starting_point, Orientation)
+    Updates the board with their ship
+Prompts player to clear screen before player 2 goes
+Loop while unplaced ships
+    Player2.place_ships(blah blah)
+    blah
+prompts player to clear screen before start of player 1
+
+Loop while player1 alive and player2 alive
+    player1.attacks(player2, "e4")
+    returns HIT or MISS
+    Displays updated board
+    Prompts player to hit a key to clear and pass over
+    player2.attacks(player1, "e4")
+    returns HIT or MISS
+    Displays updated board
+    Prompts player to hit a key to clear and pass over
+
+
 

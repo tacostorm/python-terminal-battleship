@@ -14,6 +14,9 @@ class Player:
     def reset(self):
         pass
 
+    def attacks(self, target, coordinate):
+        pass
+
 class PlayArea:
     
     def __init__(self, height = 10, length = 10):
@@ -32,9 +35,10 @@ class PlayArea:
         display_string = ""
         for row in range(self.height):
             for column in range(self.length):
-                display_string += "~\t" #self.modules[row][column].coordinates + "\t"
-            display_string += "\n\n\n"
-        print(display_string)
+                
+                display_string += "~ " #self.modules[row][column].coordinates + "\t"
+            display_string += "\n"
+        return display_string
 
 class Module:
 
@@ -51,6 +55,10 @@ class Ship:
     def __init__(self, name, size):
         self.name = name
         self.size = size
+        self.health = size
+        self.isDestroyed = False
+        self.position = ""
+        self.orientation = ""
 
     def __repr__(self):
         return "{name} of size {size}".format(name = self.name, size = self.size)
