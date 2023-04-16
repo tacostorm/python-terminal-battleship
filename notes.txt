@@ -161,3 +161,44 @@ My enemy grid can have:
 An unknown grid = ~
 A hit = ~
 a miss = O
+
+while player_list[0].get_number_unplaced_ships() > 0:
+    #Selecting a ship to place flow
+    render_ui(player_list[0], player_list[1],True,True)
+    print("Please enter the first letter of the ship you'd like to place: ")
+    selection = input()
+    while not is_ship_selection_valid(player_list[0], selection):
+        render_ui(player_list[0], player_list[1],True,True)
+        print("{ship} is invalid. Please enter the first letter of the ship you'd like to place: ".format(ship = ship))
+        selection = input()
+    ship = player_list[0].get_ship_from_input(selection)
+
+    #Selecting a coordinate to place the ship
+    render_ui(player_list[0], player_list[1],True,True)
+    print("Enter the coordinate for one end of your ship (E.G. E4): ")
+    starting_coordinate = input()
+    while not is_coordinate_selection_valid(starting_coordinate) or player_list[0].play_area.modules[starting_coordinate].contents != "":
+        render_ui(player_list[0], player_list[1],True,True)
+        print("{coord} is not valid. Please enter a valid coordinate: ".format(coord=starting_coordinate))
+        starting_coordinate = input()
+
+    #Placing an orientation for the ship
+    render_ui(player_list[0], player_list[1],True,True)
+    valid_orientations = get_valid_ship_orientations(player_list[0].play_area.modules, player_list[0].ships[ship].size, starting_coordinate)
+    valid_directions = ""
+    for i in valid_orientations.keys():
+        valid_directions += i + " "
+    print("Valid Directions: {directions} ".format(directions = valid_directions))
+    print("Which direction should the ship go from {coordinate}: ".format(coordinate = starting_coordinate))
+    direction = input()
+    while not direction in valid_orientations.keys():
+        render_ui(player_list[0], player_list[1],True,True)
+        print("Valid Directions: {directions} ".format(directions = valid_directions))
+        print("{direction} is not a valid direction. Please enter a valid direction: ".format(direction = direction))
+        direction = input()
+
+    #Putting the ship on the board
+    coordinates_for_ship = valid_orientations[direction][1]
+    coordinates_for_ship.append(starting_coordinate)
+    player_list[0].place_ship(coordinates_for_ship, ship)
+    render_ui(player_list[0], player_list[1],True,True)

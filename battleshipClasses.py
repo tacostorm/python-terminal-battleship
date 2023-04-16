@@ -2,17 +2,41 @@ class Player:
     
     idCounter = 1
 
-    def __init__(self):
+    def __init__(self, ships = {}, height=10, length=10):
         self.id = Player.idCounter
-        self.play_area = PlayArea()
-        self.ships = []
+        self.play_area = PlayArea(height, length)
+        self.ships = ships
         Player.idCounter += 1
 
     def __repr__(self) -> str:
-        print("Player {id}".format(id=self.id + 1))
+        print("Player {id}".format(id=self.id))
+
+    def place_ship(self, coordinates, ship):
+        content = ship[0]
+        for coordinate in coordinates:
+            self.play_area.modules.update({coordinate:Module(coordinate, content)})
+        self.ships[ship].is_placed = True   
+        pass
+
+    def get_number_unplaced_ships(self):
+        unplaced_ships = 0
+        for key in self.ships:
+            if not self.ships[key].is_placed: 
+                unplaced_ships += 1
+
+        return unplaced_ships
+
+    def get_ship_from_input(self, input):
+        
+        for ship in self.ships:
+            if ship[0] == input: 
+                return ship
+        pass
     
     def reset(self):
         pass
+
+
 
     def attacks(self, target, coordinate):
         pass
@@ -32,6 +56,8 @@ class PlayArea:
         display_string = ""
         for row in range(self.height + 1):
             for column in range(self.length + 1):
+                coordinate = chr(column+64) + str(row)
+                module = self.modules.get(coordinate)
                 if row == 0 and column == 0:
                     display_string += "   "
                 elif row == 0:
@@ -41,23 +67,22 @@ class PlayArea:
                     for i in range(2 - row_num_length): display_string += " "
                     display_string += str(row) + " "
                 else:
-                    display_string += "~ "
+                    if owner_perspective and module.contents != "" and not module.isGuessed:
+                        display_string += module.contents + " "
+                    elif owner_perspective and module.contents != "" and module.isGuessed:
+                        display_string += "# "
+                    elif owner_perspective and module.contents == "" and not module.isGuessed:
+                        display_string += "~ "
+                    elif owner_perspective and module.contents == "" and module.isGuessed: 
+                        display_string += "! "                    
+                    elif not owner_perspective and module.contents != "" and module.isGuessed:
+                        display_string += "# "
+                    elif not owner_perspective and module.contents == "" and module.isGuessed:
+                        display_string += "! "
+                    elif not owner_perspective and not module.isGuessed:
+                        display_string += "~ "
             display_string += "\n"
-
-
         return display_string
-
-
-
-    
-    #def show(self, owner_perspective = True):
-    #    display_string = ""
-    #    for row in range(self.height):
-    #        for column in range(self.length):
-    #            
-    #            display_string += "~ " #self.modules[row][column].coordinates + "\t"
-    #        display_string += "\n"
-    #    return display_string
 
 class Module:
 
@@ -78,6 +103,7 @@ class Ship:
         self.isDestroyed = False
         self.position = ""
         self.orientation = ""
+        self.is_placed = False
 
     def __repr__(self):
-        return "{name} of size {size}".format(name = self.name, size = self.size)
+        return "{name} (Size: {size})".format(name = self.name, size = self.size)
