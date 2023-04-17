@@ -136,15 +136,33 @@ def placement_phase(active_player, enemy):
         coordinates_for_ship.append(starting_coordinate)
         active_player.place_ship(coordinates_for_ship, ship)
         render_ui(active_player, enemy,True,True)
+
+def main_game_loop(player_1, player_2):
+    #while player_1.is_alive() and player_2.is_alive()
+        #active player = player_1
+        #prompt to get player_1 to guess
+        #validate if coordinate is correct (Is it in the board? Has it already been guessed?)
+        #display contents/feedback of the guess
+        #provide a prompt to clear the screen before passing it over
+        #if active player = player_1, make active player player_2
+    #if player_1.is_alive() then: return player_1
+    #else: return player 2
+    pass
+
+def victory_screen(winner):
+    pass
+
+def intro_screen():
+    pass
     
 
-player_list =[battleshipClasses.Player(One_Ship_P1, Board_Height, Board_Length), battleshipClasses.Player(One_Ship_P2, Board_Height, Board_Length)]
+player_list =[battleshipClasses.Player(Default_Ships_P1, Board_Height, Board_Length), battleshipClasses.Player(Default_Ships_P2, Board_Height, Board_Length)]
 
-#TODO Make placement phase for player 2 work
-placement_phase(player_list[0], player_list[1])
-print(player_list[1].get_number_unplaced_ships())
-print(player_list[1].ships["Small"].is_placed)
+print(player_list[0].is_alive())
+print(player_list[0].get_health())
 input()
+
+placement_phase(player_list[0], player_list[1])
 placement_phase(player_list[1], player_list[0])
 
 
