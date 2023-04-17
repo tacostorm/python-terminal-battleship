@@ -36,6 +36,8 @@ def is_coordinate_selection_valid(input):
     valid = input[0] in ValidLetters and input[1:] in ValidNumbers
     return valid
 
+def is_coordinate_already_guessed(input, enemy):
+    return enemy.play_area.modules[input].isGuessed 
 
 def render_ui(player, enemy, show_ships = False, show_player_board = True, show_enemy_board = False):
     clear_terminal()
@@ -138,6 +140,23 @@ def placement_phase(active_player, enemy):
         render_ui(active_player, enemy,True,True)
 
 def main_game_loop(player_1, player_2):
+    active_player = player_1
+    enemy = player_2
+    while player_1.is_alive() and player_2.is_alive():
+        render_ui(active_player, enemy, False, True, True)
+        print("What coordinate will you target (E.G. E4):")
+        target = input()
+        while not is_coordinate_selection_valid(target) or is_coordinate_already_guessed(target, enemy):
+            render_ui(active_player, enemy, False, True, True)
+            print("{coord} is not valid or already targeted. Please enter a valid coordinate: ".format(coord=target))
+            target = input()
+        active_player.attacks(enemy, target)
+        render_ui(active_player, enemy, False, True, True)
+        print("Press enter to end your turn")
+        input()
+        original_active_player = active_player 
+        active_player = enemy
+        enemy = original_active_player
     #while player_1.is_alive() and player_2.is_alive()
         #active player = player_1
         #prompt to get player_1 to guess
@@ -154,17 +173,16 @@ def victory_screen(winner):
 
 def intro_screen():
     pass
-    
 
-player_list =[battleshipClasses.Player(Default_Ships_P1, Board_Height, Board_Length), battleshipClasses.Player(Default_Ships_P2, Board_Height, Board_Length)]
+#One version for Testing    
+player_list =[battleshipClasses.Player(One_Ship_P1, Board_Height, Board_Length), battleshipClasses.Player(One_Ship_P2, Board_Height, Board_Length)]
+#One version for the real game
+#player_list =[battleshipClasses.Player(Default_Ships_P1, Board_Height, Board_Length), battleshipClasses.Player(Default_Ships_P2, Board_Height, Board_Length)]
 
-print(player_list[0].is_alive())
-print(player_list[0].get_health())
-input()
 
 placement_phase(player_list[0], player_list[1])
 placement_phase(player_list[1], player_list[0])
-
+main_game_loop(player_list[0], player_list[1])
 
 
 

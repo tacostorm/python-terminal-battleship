@@ -48,7 +48,11 @@ class Player:
             health += self.ships[ship].health
         return health
 
-    def attacks(self, target, coordinate):
+    def attacks(self, enemy, coordinate):
+        print(enemy.play_area.modules[coordinate].isGuessed)
+        enemy.play_area.modules[coordinate].isGuessed = True
+        print(enemy.play_area.modules[coordinate].isGuessed)
+        input()
         pass
 
 class PlayArea:
@@ -86,11 +90,11 @@ class PlayArea:
                     elif owner_perspective and module.contents == "" and module.isGuessed: 
                         display_string += "! "                    
                     elif not owner_perspective and module.contents != "" and module.isGuessed:
-                        display_string += "# "
+                        display_string += "@ "
                     elif not owner_perspective and module.contents == "" and module.isGuessed:
-                        display_string += "! "
+                        display_string += "$ "
                     elif not owner_perspective and not module.isGuessed:
-                        display_string += "~ "
+                        display_string += "^ "
             display_string += "\n"
         return display_string
 
