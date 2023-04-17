@@ -36,7 +36,17 @@ class Player:
     def reset(self):
         pass
 
-
+    def is_alive(self):
+        health = 0
+        for ship in self.ships:
+            health += ship.health
+        return health > 0
+    
+    def get_health(self):
+        health = 0
+        for ship in self.ships:
+            health += ship.health
+        return health
 
     def attacks(self, target, coordinate):
         pass
