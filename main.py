@@ -150,39 +150,41 @@ def main_game_loop(player_1, player_2):
             render_ui(active_player, enemy, False, True, True)
             print("{coord} is not valid or already targeted. Please enter a valid coordinate: ".format(coord=target))
             target = input()
-        active_player.attacks(enemy, target)
+        result = active_player.attacks(enemy, target)
         render_ui(active_player, enemy, False, True, True)
-        print("Press enter to end your turn")
+        print("{target} is a {result}".format(target = target, result = result))
+        print("Press enter to clear your screen ")
+        input()
+        clear_terminal()
+        print("Press enter when Player {id} is ready!".format(id = enemy.id))
         input()
         original_active_player = active_player 
         active_player = enemy
         enemy = original_active_player
-    #while player_1.is_alive() and player_2.is_alive()
-        #active player = player_1
-        #prompt to get player_1 to guess
-        #validate if coordinate is correct (Is it in the board? Has it already been guessed?)
-        #display contents/feedback of the guess
-        #provide a prompt to clear the screen before passing it over
-        #if active player = player_1, make active player player_2
-    #if player_1.is_alive() then: return player_1
-    #else: return player 2
+    if player_1.is_alive():
+        return player_1
+    else:
+        return player_2
     pass
 
 def victory_screen(winner):
+    clear_terminal()
+    print("The winner is Player {id}".format(id = winner.id))
     pass
 
 def intro_screen():
     pass
 
 #One version for Testing    
-player_list =[battleshipClasses.Player(One_Ship_P1, Board_Height, Board_Length), battleshipClasses.Player(One_Ship_P2, Board_Height, Board_Length)]
+#player_list =[battleshipClasses.Player(One_Ship_P1, Board_Height, Board_Length), battleshipClasses.Player(One_Ship_P2, Board_Height, Board_Length)]
 #One version for the real game
-#player_list =[battleshipClasses.Player(Default_Ships_P1, Board_Height, Board_Length), battleshipClasses.Player(Default_Ships_P2, Board_Height, Board_Length)]
+player_list =[battleshipClasses.Player(Default_Ships_P1, Board_Height, Board_Length), battleshipClasses.Player(Default_Ships_P2, Board_Height, Board_Length)]
 
 
 placement_phase(player_list[0], player_list[1])
 placement_phase(player_list[1], player_list[0])
-main_game_loop(player_list[0], player_list[1])
+winner = main_game_loop(player_list[0], player_list[1])
+victory_screen(winner)
 
 
 

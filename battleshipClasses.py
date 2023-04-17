@@ -7,6 +7,11 @@ class Player:
         self.play_area = PlayArea(height, length)
         self.ships = ships
         Player.idCounter += 1
+        self.max_health = 0
+        for ship in self.ships:
+            self.max_health += self.ships[ship].health
+        self.health = self.max_health
+        
 
     def __repr__(self) -> str:
         print("Player {id}".format(id=self.id))
@@ -37,23 +42,20 @@ class Player:
         pass
 
     def is_alive(self):
-        health = 0
-        for ship in self.ships:
-            health += self.ships[ship].health
-        return health > 0
+        return self.health > 0
     
     def get_health(self):
-        health = 0
-        for ship in self.ships:
-            health += self.ships[ship].health
-        return health
+        return self.health
 
     def attacks(self, enemy, coordinate):
-        print(enemy.play_area.modules[coordinate].isGuessed)
+        result = ""
         enemy.play_area.modules[coordinate].isGuessed = True
-        print(enemy.play_area.modules[coordinate].isGuessed)
-        input()
-        pass
+        if enemy.play_area.modules[coordinate].contents == "":
+            result = "miss."
+        else:
+            enemy.health -= 1
+            result = "hit!"
+        return result
 
 class PlayArea:
     
@@ -81,20 +83,20 @@ class PlayArea:
                     for i in range(2 - row_num_length): display_string += " "
                     display_string += str(row) + " "
                 else:
-                    if owner_perspective and module.contents != "" and not module.isGuessed:
+                    if owner_perspective and module.contents != "" and not module.isGuessed: #My board, module contains a ship that hasn't been attacked
                         display_string += module.contents + " "
-                    elif owner_perspective and module.contents != "" and module.isGuessed:
+                    elif owner_perspective and module.contents != "" and module.isGuessed: #My board, module contains a ship that has been attacked
                         display_string += "# "
-                    elif owner_perspective and module.contents == "" and not module.isGuessed:
+                    elif owner_perspective and module.contents == "" and not module.isGuessed: #My board, module contains nothing and hasn't been attacked
                         display_string += "~ "
-                    elif owner_perspective and module.contents == "" and module.isGuessed: 
+                    elif owner_perspective and module.contents == "" and module.isGuessed: #My board, module contains nothing but has been attacked
                         display_string += "! "                    
-                    elif not owner_perspective and module.contents != "" and module.isGuessed:
-                        display_string += "@ "
-                    elif not owner_perspective and module.contents == "" and module.isGuessed:
-                        display_string += "$ "
-                    elif not owner_perspective and not module.isGuessed:
-                        display_string += "^ "
+                    elif not owner_perspective and module.contents != "" and module.isGuessed: #Enemy board, module contains a ship that has been attacked
+                        display_string += "# "
+                    elif not owner_perspective and module.contents == "" and module.isGuessed: #Enemy board, module contains nothing and has been attacked
+                        display_string += "! "
+                    elif not owner_perspective and not module.isGuessed: #Enemy board, default character that masks contents of the module
+                        display_string += "~ "
             display_string += "\n"
         return display_string
 
