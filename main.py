@@ -5,8 +5,10 @@ Board_Length = 10
 Board_Height = 10
 
 
-Default_Ships = {"Battleship":battleshipClasses.Ship("Battleship", 4), "Carrier":battleshipClasses.Ship("Carrier", 5), "Destroyer":battleshipClasses.Ship("Destroyer", 3), "Submarine":battleshipClasses.Ship("Submarine", 3), "Patrol Boat":battleshipClasses.Ship("Patrol Boat", 2)}
-One_Ship = {"Small":battleshipClasses.Ship("Small", 1)}
+Default_Ships_P1 = {"Battleship":battleshipClasses.Ship("Battleship", 4), "Carrier":battleshipClasses.Ship("Carrier", 5), "Destroyer":battleshipClasses.Ship("Destroyer", 3), "Submarine":battleshipClasses.Ship("Submarine", 3), "Patrol Boat":battleshipClasses.Ship("Patrol Boat", 2)}
+Default_Ships_P2 = {"Battleship":battleshipClasses.Ship("Battleship", 4), "Carrier":battleshipClasses.Ship("Carrier", 5), "Destroyer":battleshipClasses.Ship("Destroyer", 3), "Submarine":battleshipClasses.Ship("Submarine", 3), "Patrol Boat":battleshipClasses.Ship("Patrol Boat", 2)}
+One_Ship_P1 = {"Small":battleshipClasses.Ship("Small", 1)}
+One_Ship_P2 = {"Small":battleshipClasses.Ship("Small", 1)}
 ValidLetters = [chr(i+65) for i in range(Board_Length)]
 ValidNumbers = [str(i+1) for i in range(Board_Height)]
 
@@ -136,11 +138,13 @@ def placement_phase(active_player, enemy):
         render_ui(active_player, enemy,True,True)
     
 
-ShipsDict = One_Ship
-player_list =[battleshipClasses.Player(ShipsDict, Board_Height, Board_Length), battleshipClasses.Player(ShipsDict, Board_Height, Board_Length)]
+player_list =[battleshipClasses.Player(One_Ship_P1, Board_Height, Board_Length), battleshipClasses.Player(One_Ship_P2, Board_Height, Board_Length)]
 
 #TODO Make placement phase for player 2 work
 placement_phase(player_list[0], player_list[1])
+print(player_list[1].get_number_unplaced_ships())
+print(player_list[1].ships["Small"].is_placed)
+input()
 placement_phase(player_list[1], player_list[0])
 
 
