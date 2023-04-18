@@ -9,7 +9,7 @@ class Player:
         Player.idCounter += 1
         self.max_health = 0
         for ship in self.ships:
-            self.max_health += self.ships[ship].health
+            self.max_health += self.ships[ship].size
         self.health = self.max_health
         
 
@@ -32,13 +32,13 @@ class Player:
         return unplaced_ships
 
     def get_ship_from_input(self, input):
-        
         for ship in self.ships:
-            if ship[0] == input: 
+            if ship[0].upper() == input.upper():
                 return ship
         pass
     
     def reset(self):
+        #TODO, make a method that resets the player to their starting state, so the game can be replayed if wanted
         pass
 
     def is_alive(self):
@@ -49,8 +49,8 @@ class Player:
 
     def attacks(self, enemy, coordinate):
         result = ""
-        enemy.play_area.modules[coordinate].isGuessed = True
-        if enemy.play_area.modules[coordinate].contents == "":
+        enemy.play_area.modules[coordinate.upper()].isGuessed = True
+        if enemy.play_area.modules[coordinate.upper()].contents == "":
             result = "miss."
         else:
             enemy.health -= 1
@@ -115,10 +115,6 @@ class Ship:
     def __init__(self, name, size):
         self.name = name
         self.size = size
-        self.health = size
-        self.isDestroyed = False
-        self.position = ""
-        self.orientation = ""
         self.is_placed = False
 
     def __repr__(self):

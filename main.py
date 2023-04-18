@@ -22,13 +22,6 @@ def is_ship_selection_valid(player, input):
             found = True
     return found
 
-def get_ship_from_input(player, input):
-    for i in player.ships:
-        if i.name[0]== input:
-            ship = i.name
-    return ship
-
-
 def is_coordinate_selection_valid(input):
     #so we exepct input in the form of LETTER + NUMBER, maximum of 3 character (A10)
     #We should expect up to 26x26 grids, so Z26 is theoretically the highest we want to support
@@ -45,7 +38,7 @@ def render_ui(player, enemy, show_ships = False, show_player_board = True, show_
     if show_ships:
         print("Your Ships Available to Place\n")
         for i in player.ships:
-            if not player.ships[i].is_placed: print(i)
+            if not player.ships[i].is_placed: print(player.ships[i])
         print("\n")
     if show_player_board:
         print("Your Play Area")
@@ -55,6 +48,11 @@ def render_ui(player, enemy, show_ships = False, show_player_board = True, show_
         print("\n" + enemy.play_area.show(False))
     pass
 
+#Function to clear the screen and allow the next player to start their turn when ready.
+def switch_player():
+    pass
+
+#I assume there's a way to refactor this, since I'm essentially running two functions 4 times each.
 def get_valid_ship_orientations(modules, ship_size, coordinate):
     valid_orientations = {"Up": True, "Down": True, "Left": True, "Right": True}
     column = coordinate[0]

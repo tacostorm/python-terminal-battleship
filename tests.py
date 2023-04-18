@@ -1,20 +1,34 @@
 import battleshipClasses
 
+Two_Ships_P1 = {"Small":battleshipClasses.Ship("Small", 2), "Medium":battleshipClasses.Ship("Medium",3)}
+Two_Ships_P2 = {"Small":battleshipClasses.Ship("Small", 2), "Medium":battleshipClasses.Ship("Medium",3)}
 
 print("""This will execute a bunch of tests for all the class methods
-If everything is true, then tests all pass!""")
+If everything is true, then tests all pass!\n""")
 
 #Player Tests
 #test __init__
 #test __repr__
-player1 = battleshipClasses.Player()
-player2 = battleshipClasses.Player()
-player1.play_area.modules.update({"E4":battleshipClasses.Module("E4","A")})
-player1.play_area.modules.update({"E5":battleshipClasses.Module("E5","B", True)})
-player1.play_area.modules.update({"E6":battleshipClasses.Module("E6","", True)})
-player2.play_area.modules.update({"E4":battleshipClasses.Module("E4","C")})
-player2.play_area.modules.update({"E5":battleshipClasses.Module("E5","D",True)})
-player2.play_area.modules.update({"E6":battleshipClasses.Module("E6","",True)})
+player1 = battleshipClasses.Player(Two_Ships_P1,3,3)
+player2 = battleshipClasses.Player(Two_Ships_P2,3,3)
+print("Testing Player Class")
+print(player1.id == 1)
+print(player2.id == 2)
+print(player1.max_health == 5)
+print(player2.max_health == 5)
+player1.place_ship(["A1", "A2", "A3"], "Small")
+print(player1.get_number_unplaced_ships() == 1)
+print(player2.get_number_unplaced_ships() == 2)
+print(player1.get_ship_from_input("S") == "Small")
+print(player1.get_ship_from_input("s") == "Small")
+print(player1.is_alive() == True)
+print(player2.attacks(player1, "A1") == "hit!")
+print(player2.attacks(player1, "a2") == "hit!") 
+print(player2.attacks(player1, "C1") == "miss.")
+print(player1.get_health() == 3)
+player1.health = 0
+print(player1.is_alive() == False)
+
 
 #print(get_valid_ship_orientations(player1.play_area.modules, 4, "E3"))
 
@@ -32,7 +46,8 @@ print(test_module.isGuessed == True)
 
 #Ship Tests
 print("\nBeginning Ship Class Tests")
-test_ship = battleshipClasses.Ship("Test", 5)
-print(test_ship.name == "Test")
-print(test_ship.size == 5)
-print(str(test_ship) == "Test of size 5")
+
+print(str(player1.ships["Small"]) == "Small (Size: 2)")
+print(player1.ships["Small"].is_placed)
+print(player1.ships["Small"].name == "Small")
+print(player1.ships["Small"].size == 2)
