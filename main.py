@@ -15,13 +15,6 @@ ValidNumbers = [str(i+1) for i in range(Board_Height)]
 def clear_terminal():
     os.system('cls')
 
-def is_ship_selection_valid(player, input):
-    found = False
-    for i in player.ships:
-        if i[0] == input:
-            found = True
-    return found
-
 def is_coordinate_selection_valid(input):
     #so we exepct input in the form of LETTER + NUMBER, maximum of 3 character (A10)
     #We should expect up to 26x26 grids, so Z26 is theoretically the highest we want to support
@@ -29,6 +22,7 @@ def is_coordinate_selection_valid(input):
     valid = input[0] in ValidLetters and input[1:] in ValidNumbers
     return valid
 
+#Candidate for being a Player class method
 def is_coordinate_already_guessed(input, enemy):
     return enemy.play_area.modules[input].isGuessed 
 
@@ -52,6 +46,7 @@ def render_ui(player, enemy, show_ships = False, show_player_board = True, show_
 def switch_player():
     pass
 
+#consider making this a Player class method
 #I assume there's a way to refactor this, since I'm essentially running two functions 4 times each.
 def get_valid_ship_orientations(modules, ship_size, coordinate):
     valid_orientations = {"Up": True, "Down": True, "Left": True, "Right": True}
@@ -101,7 +96,7 @@ def placement_phase(active_player, enemy):
         render_ui(active_player, enemy,True,True)
         print("Please enter the first letter of the ship you'd like to place: ")
         selection = input()
-        while not is_ship_selection_valid(active_player, selection):
+        while not active_player.is_ship_selection_valid(selection):
             render_ui(active_player, enemy,True,True)
             print("{ship} is invalid. Please enter the first letter of the ship you'd like to place: ".format(ship = ship))
             selection = input()

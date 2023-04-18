@@ -12,6 +12,12 @@ class Player:
             self.max_health += self.ships[ship].size
         self.health = self.max_health
         
+    def is_ship_selection_valid(self, input):
+        found = False
+        for ship in self.ships:
+            if ship[0].upper() == input.upper():
+                found = True
+        return found
 
     def __repr__(self) -> str:
         print("Player {id}".format(id=self.id))
